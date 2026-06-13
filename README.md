@@ -41,3 +41,19 @@ Run the smoke tests:
 ```bash
 pytest -q
 ```
+
+Run the k6 baseline while the API is running:
+
+```bash
+k6 run performance/baseline.js
+```
+
+Use `BASE_URL` when the API is running at a different address:
+
+```bash
+BASE_URL=http://localhost:8000 k6 run performance/baseline.js
+```
+
+The baseline sends requests from one virtual user for 10 seconds. It confirms
+that `/work` remains functionally correct at minimal traffic and establishes a
+local reference point before adding load or stress scenarios.
