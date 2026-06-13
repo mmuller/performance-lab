@@ -22,6 +22,13 @@ Start the API:
 uvicorn app.main:app --reload
 ```
 
+`/work` simulates a backend operation with a five-request concurrency limit and
+a configurable 150 ms processing delay. To use a different delay:
+
+```bash
+WORK_PROCESSING_DELAY_MS=200 uvicorn app.main:app --reload
+```
+
 The API is available at `http://127.0.0.1:8000`:
 
 ```bash
