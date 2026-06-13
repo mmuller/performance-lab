@@ -61,3 +61,7 @@ local reference point before adding load or stress scenarios.
 ```bash
 k6 run performance/load.js
 ```
+
+```bash
+k6 run performance/stress.js
+```
