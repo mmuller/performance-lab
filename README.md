@@ -57,3 +57,7 @@ BASE_URL=http://localhost:8000 k6 run performance/baseline.js
 The baseline sends requests from one virtual user for 10 seconds. It confirms
 that `/work` remains functionally correct at minimal traffic and establishes a
 local reference point before adding load or stress scenarios.
+
+```bash
+k6 run performance/load.js
+```
