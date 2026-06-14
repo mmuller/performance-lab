@@ -1,10 +1,13 @@
 # performance-lab
 
-Small lab for validating backend behavior under load.
+A small FastAPI and k6 lab for comparing functional correctness with backend
+behavior under increasing concurrency.
 
-The goal is to compare functional correctness with runtime behavior using pytest smoke checks and k6 scenarios.
+## Why this repo exists
 
-Core idea: an API can keep returning 200 OK while p95 latency rises and throughput stops scaling under pressure.
+An API can keep returning `200 OK` while p95 latency rises and throughput stops
+scaling. This repository makes that behavior visible with a controlled local
+bottleneck and repeatable test scenarios.
 
 ## Local setup
 
@@ -36,17 +39,35 @@ curl http://127.0.0.1:8000/health
 curl http://127.0.0.1:8000/work
 ```
 
-Run the smoke tests:
+## Execution order
 
-```bash
-pytest -q
-```
+Run the scenarios in this order while the API is running:
 
-Run the k6 baseline while the API is running:
+1. Functional smoke tests
 
-```bash
-k6 run performance/baseline.js
-```
+   ```bash
+   pytest -q
+   ```
+
+2. Baseline
+
+   ```bash
+   k6 run performance/baseline.js
+   ```
+
+3. Load
+
+   ```bash
+   k6 run performance/load.js
+   ```
+
+4. Stress
+
+   ```bash
+   k6 run performance/stress.js
+   ```
+
+5. Review [the recorded findings](results/FINDINGS.md).
 
 Use `BASE_URL` when the API is running at a different address:
 
@@ -54,14 +75,8 @@ Use `BASE_URL` when the API is running at a different address:
 BASE_URL=http://localhost:8000 k6 run performance/baseline.js
 ```
 
-The baseline sends requests from one virtual user for 10 seconds. It confirms
-that `/work` remains functionally correct at minimal traffic and establishes a
-local reference point before adding load or stress scenarios.
+## Interview summary
 
-```bash
-k6 run performance/load.js
-```
-
-```bash
-k6 run performance/stress.js
-```
+This repository demonstrates that functional correctness alone does not
+guarantee acceptable runtime behavior. pytest validates the API contract, while
+k6 shows how latency and throughput change when demand exceeds capacity.
