@@ -75,7 +75,7 @@ Use `BASE_URL` when the API is running at a different address:
 BASE_URL=http://localhost:8000 k6 run performance/baseline.js
 ```
 
-## Interview summary
+## What this demonstrates
 
 This repository demonstrates that functional correctness alone does not
 guarantee acceptable runtime behavior. pytest validates the API contract, while
